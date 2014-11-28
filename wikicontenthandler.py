@@ -1,7 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/python3.3
 
-from BeautifulSoup import BeautifulSoup
-import urllib2
+#-*- coding: UTF-8 -*-
+
+from bs4 import BeautifulSoup
+import urllib.request
 
 def packString(line):
     ret = ""
@@ -15,15 +17,10 @@ def packString(line):
         
     return ret
 
-def getContent():
+def getContentDidYouKnow():
     ret = ""
     
-    #print("Getting Wikipedia's page...")
-
-    reponse = urllib2.urlopen("http://fr.wikipedia.org")
-    page_source = reponse.read()
-
-    html = BeautifulSoup(str(page_source))
+    html = getWikiSource()
 
     entries = html.find('div', id="mf-SaviezVous").findAll('li')
 
@@ -31,6 +28,35 @@ def getContent():
         ret += "- " + packString(line) + "\n"
         
     return ret
+    
+def getWikiSource():
+  
+    reponse = urllib.request.urlopen("http://fr.wikipedia.org")
+    pageSource = reponse.read()
+    
+    return BeautifulSoup(pageSource.decode("utf8"))
+    
+    
+    
+def getContentLightOn():
+    ret = ""
+    
+    html = getWikiSource()
+    
+    entries = html.find('div', id="mf-lumieresur").findAll('p')
+    
+    for l in entries:
+        ret += l.text
+    
+    return ret
+
+def main():
+    getContentLightOn()
+    
+if __name__ == "__main__":
+    main()
+    
+
 
 
         

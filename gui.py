@@ -1,34 +1,42 @@
-#!/usr/bin/python
+#!/usr/bin/python3.3
 
-import Tkinter as tk
+#-*- coding: UTF-8 -*-
+
+import tkinter as tk
+import tkinter.ttk as ttk
 import wikicontenthandler as wch
 
-class Application(tk.Frame):
+class Application():
     
-    def __init__(self, master=None):
-        tk.Frame.__init__(self, master)
-        self.grid()
+    def __init__(self):
+        self.mainWindow = tk.Tk()
         self.createWidgets()
         
     def setText(self):
-        self.txtEntry.insert("1.0", wch.getContent())
-        self.txtEntry['state'] = "disable"
+        self.txtEntry1.insert("1.0", wch.getContentDidYouKnow())
+        self.txtEntry1['state'] = "disable"
+        self.txtEntry2.insert("1.0", wch.getContentLightOn())
+        self.txtEntry2['state'] = "disable"
         
     def createWidgets(self):
-        self.txtEntry = tk.Text(self, width=80, height=25, wrap="word")
+        self.t1 = tk.Label(self.mainWindow, text="Le saviez-vous ?")
+        self.t1.pack()
+        self.txtEntry1 = tk.Text(self.mainWindow, width=80, height=12, wrap="word")
+        self.txtEntry1.pack()
+        
+        self.t2 = tk.Label(self.mainWindow, text="Lumière sur :")
+        self.t2.pack()
+        self.txtEntry2 = tk.Text(self.mainWindow, width=80, height=12, wrap="word")
+        self.txtEntry2.pack()
         
         self.setText()
-        
-        self.btnQuit = tk.Button(self, text="Quit", command=self.quit)
-        self.txtEntry.grid()
-        self.btnQuit.grid()
-
-def main():
-    app = Application()
-    app.master.title("Le saviez-vous ?")
-    app.mainloop()
     
 if __name__ == "__main__":
-    main()
     
+    app = Application()
+    app.mainWindow.title("Trivia")
+    app.mainWindow.mainloop()
+    
+
+  
 
